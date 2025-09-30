@@ -6,6 +6,9 @@ This project implements a self-balancing two-wheeled robot powered by a Raspberr
 * Hardware abstraction using interface classes to enable platform-independent device drivers
 * Modular architecture enabling reuse of SW components
 
+## 🏗️ SW Architecture
+![Architecture Diagram](img/self-balancing-robot-architecture.drawio.png)
+
 ## 📂 Repository Structure
 ```
 ├── drivers/
