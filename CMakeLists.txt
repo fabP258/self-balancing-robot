@@ -56,6 +56,7 @@ add_subdirectory(src/control)
 target_link_libraries(self-balancing-robot
         pico_stdlib
         hardware_i2c
+        hardware_timer
         driver_hal
         imu_driver
         h_bridge_driver

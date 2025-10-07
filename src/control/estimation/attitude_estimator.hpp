@@ -9,7 +9,7 @@ class AttitudeEstimator {
     public:
         virtual ~AttitudeEstimator() = default;
 
-        virtual void update(const std::array<float,3> &accel, const std::array<float,3> &gyro, const uint64_t systemTimeUs) = 0;
+        virtual void update(const std::array<float,3> &accel, const std::array<float,3> &gyro) = 0;
 
         virtual void reset() = 0;
 

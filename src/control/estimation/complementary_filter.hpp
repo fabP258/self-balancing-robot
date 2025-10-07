@@ -5,9 +5,9 @@
 
 class ComplementaryFilter : public AttitudeEstimator {
     public:
-        ComplementaryFilter(float alpha = 0.98f) : m_alpha(alpha) {}
+        ComplementaryFilter(const float cycleTimeSec, float alpha = 0.98f) : m_cycleTimeSec(cycleTimeSec), m_alpha(alpha) {}
 
-        void update(const std::array<float,3> &accel, const std::array<float,3> &gyro, const uint64_t systemTimeUs) override;
+        void update(const std::array<float,3> &accel, const std::array<float,3> &gyro) override;
 
         void reset();
         
@@ -19,8 +19,8 @@ class ComplementaryFilter : public AttitudeEstimator {
 
         std::optional<float> getYawAngle() const;
     private:
+        const float m_cycleTimeSec;
         float m_alpha;
-        std::optional<uint64_t> m_sysTimeLastUpdateUs;
         std::optional<std::array<float,3>> m_eulerAngles{};
 };
 

@@ -19,7 +19,7 @@ class Application {
                     AttitudeEstimator& estimator,
                     AttitudeController& controller);
 
-        void loop(const uint64_t &sysTimeUs);
+        void loop();
 
         std::string getLogString(const uint64_t &sysTimeUs);
 

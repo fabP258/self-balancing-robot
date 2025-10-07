@@ -11,14 +11,13 @@ Application::Application(ImuDriver& imuDriver,
         m_imu.calibrateGyro();
 }
 
-void Application::loop(const uint64_t &sysTimeUs) {
+void Application::loop() {
     m_imu.readAccel(m_accel);
     m_imu.readGyro(m_gyro, true);
     m_speedCommand.reset();
     if (m_accel.has_value() && m_gyro.has_value()) {
-        m_estimator.update(*m_accel, *m_gyro, sysTimeUs);
-        m_speedCommand = m_controller.run(m_estimator.getRollAngle(), STATIC_PITCH_OFFSET, (*m_gyro)[0], sysTimeUs);
-        // TODO: logging
+        m_estimator.update(*m_accel, *m_gyro);
+        m_speedCommand = m_controller.run(m_estimator.getRollAngle(), STATIC_PITCH_OFFSET, (*m_gyro)[0]);
     } else {
         m_estimator.reset();
         m_controller.reset();
