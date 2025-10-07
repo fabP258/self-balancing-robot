@@ -16,9 +16,8 @@ void Application::loop(const uint64_t &sysTimeUs) {
     m_imu.readGyro(m_gyro, true);
     m_speedCommand.reset();
     if (m_accel.has_value() && m_gyro.has_value()) {
-        m_estimator.update(*m_accel, *m_gyro, sysTimeUs);
+        m_estimator.update(*m_accel, *m_gyro);
         m_speedCommand = m_controller.run(m_estimator.getRollAngle(), STATIC_PITCH_OFFSET, (*m_gyro)[0], sysTimeUs);
-        // TODO: logging
     } else {
         m_estimator.reset();
         m_controller.reset();

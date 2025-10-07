@@ -52,7 +52,7 @@ int main()
     PicoI2CHal i2cHal;
     MPU6050Driver imu(MPU6050_I2C_ADDRESS, i2cHal);
 
-    ComplementaryFilter estimator(0.995f);
+    ComplementaryFilter estimator(static_cast<float>(CONTROL_LOOP_CYCLE_TIME_MS) * 1e-3, 0.995f);
     PIDController controller(0.82f, 0.001f, 0.0216f);
 
     PicoPwmHal pwmHal;
