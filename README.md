@@ -3,6 +3,7 @@ This project implements a self-balancing two-wheeled robot powered by a Raspberr
 
 ## 🎯 Features
 * Real-time balance using PID control
+* Deterministic loop timing through hardware timer interrupts
 * Hardware abstraction using interface classes to enable platform-independent device drivers
 * Modular architecture enabling reuse of SW components
 
