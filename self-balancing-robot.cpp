@@ -41,7 +41,7 @@ int main()
     MPU6050Driver imu(MPU6050_I2C_ADDRESS, i2cHal);
 
     ComplementaryFilter estimator(0.995f);
-    PIDController controller(1.4f, 0.0f, 0.06f);
+    PIDController controller(0.82f, 0.001f, 0.0216f);
 
     PicoPwmHal pwmHal;
     HBridgeDriverGravity motorLeft(PIN_MOTOR_LEFT, pwmHal);
@@ -55,5 +55,6 @@ int main()
     while (true) {
         sysTimeUs = time_us_64();
         app.loop(sysTimeUs);
+        printf(app.getLogString(sysTimeUs).c_str());
     }
 }

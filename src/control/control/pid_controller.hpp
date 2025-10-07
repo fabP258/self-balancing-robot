@@ -11,7 +11,9 @@ class PIDController : public AttitudeController {
 
         void reset() override;
 
-        float run(const std::optional<float> pitchAngleRad, const float pitchAngleVelocityRadPerSec, const uint64_t systemTimeUs) override;
+        float run(const std::optional<float> pitchAngleRad, const float pitchOffsetRad, const float pitchAngleVelocityRadPerSec, const uint64_t systemTimeUs) override;
+
+        size_t getDebugSignals(ControllerDebugArray& debugSignals) override;
 
         float getPPart() const;
         float getIPart() const;

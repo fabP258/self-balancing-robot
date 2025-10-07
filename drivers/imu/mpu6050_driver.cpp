@@ -10,7 +10,7 @@ MPU6050Driver::MPU6050Driver(uint8_t i2cAddr, I2CHal &i2cHal) : m_i2cAddress(i2c
     if (ret < 0) return;
     ret = readDeviceConfig();
     if (ret < 0) return;
-    ret = writeDlpfMode(MPU6050_DLPF_0);
+    ret = writeDlpfMode(MPU6050_DLPF_2);
     if (ret < 0) return;
     m_isInitialized = true;
 }

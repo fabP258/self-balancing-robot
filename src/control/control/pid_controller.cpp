@@ -2,7 +2,6 @@
 #include "pid_controller.hpp"
 
 static constexpr float DEADZONE_COMP_VALUE = 0.00f;
-static constexpr float PITCH_ANGLE_REFERENCE = 0.0035f;
 
 PIDController::PIDController(float kp, float ki, float kd) {
     m_isInitialized = false;
@@ -17,12 +16,12 @@ void PIDController::reset() {
     m_isInitialized = false;
 }
 
-float PIDController::run(const std::optional<float> pitchAngleRad, const float pitchAngleVelocityRadPerSec, const uint64_t systemTimeUs) {
+float PIDController::run(const std::optional<float> pitchAngleRad, const float pitchOffsetRad, const float pitchAngleVelocityRadPerSec, const uint64_t systemTimeUs) {
     if (!pitchAngleRad.has_value() || std::abs(*pitchAngleRad) > MAX_PITCH_ANGLE_RAD_F) {
         reset();
         return 0.0f;
     }
-    float error = PITCH_ANGLE_REFERENCE-(*pitchAngleRad);
+    float error = pitchOffsetRad-(*pitchAngleRad);
     if (m_isInitialized) {
         float dt = (systemTimeUs - m_sysTimeLastUpdateUs) / 1e6f;
         m_errorIntegrated += error * dt;
@@ -46,6 +45,13 @@ float PIDController::compensateDeadzone(float command) const {
         command -= DEADZONE_COMP_VALUE;
     }
     return command;
+}
+
+size_t PIDController::getDebugSignals(ControllerDebugArray& debugSignals) {
+    debugSignals[0] = m_pPart;
+    debugSignals[1] = m_iPart;
+    debugSignals[2] = m_dPart;
+    return 3;
 }
 
 float PIDController::getPPart() const {
