@@ -52,8 +52,9 @@ int main()
     PicoI2CHal i2cHal;
     MPU6050Driver imu(MPU6050_I2C_ADDRESS, i2cHal);
 
-    ComplementaryFilter estimator(static_cast<float>(CONTROL_LOOP_CYCLE_TIME_MS) * 1e-3, 0.995f);
-    PIDController controller(0.82f, 0.001f, 0.0216f);
+    const float cycleTimeSec = static_cast<float>(CONTROL_LOOP_CYCLE_TIME_MS) * 1e-3;
+    ComplementaryFilter estimator(cycleTimeSec, 0.995f);
+    PIDController controller(0.82f, 0.001f, 0.0216f, cycleTimeSec);
 
     PicoPwmHal pwmHal;
     HBridgeDriverGravity motorLeft(PIN_MOTOR_LEFT, pwmHal);
@@ -66,13 +67,12 @@ int main()
 
     gpio_put(PICO_DEFAULT_LED_PIN, true);
 
-    uint64_t sysTimeUs;
     while (true) {
         if (control_flag) {
             control_flag = false;
-            sysTimeUs = time_us_64();
-            app.loop(sysTimeUs);
+            app.loop();
 #ifdef LOGGING_ENABLED
+            uint64_t sysTimeUs = time_us_64();
             printf(app.getLogString(sysTimeUs).c_str());
 #endif
         }
